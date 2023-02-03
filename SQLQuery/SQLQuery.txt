@@ -1,0 +1,43 @@
+﻿/* Вопрос 3: 
+ * В базе данных MS SQL Server есть продукты и категории.
+ * Одному продукту может соответствовать много категорий, в одной категории может быть много продуктов.
+ * Напишите SQL запрос для выбора всех пар «Имя продукта – Имя категории».
+ * Если у продукта нет категорий, то его имя все равно должно выводиться.
+ */
+
+CREATE TABLE Categories (
+    id INT PRIMARY KEY,
+    name NVARCHAR (255) NOT NULL,
+);
+
+INSERT INTO Categories (id, name) VALUES (1, N'Book')
+INSERT INTO Categories (id, name) VALUES (2, N'Laptop')
+INSERT INTO Categories (id, name) VALUES (3, N'PC')
+
+CREATE TABLE Products (
+    id INT PRIMARY KEY,
+    name NVARCHAR (255) NOT NULL,
+);
+
+INSERT INTO Products (id, name) VALUES (1, N'Clean Code')
+INSERT INTO Products (id, name) VALUES (2, N'Apple MacBook Air 13')
+
+CREATE TABLE ProductCategories (
+	ProductId INT FOREIGN KEY REFERENCES Products(Id),
+	CategoryId INT FOREIGN KEY REFERENCES Categories(Id),
+	PRIMARY KEY (ProductId, CategoryId)
+);
+
+INSERT INTO ProductCategories
+VALUES
+	(1, 1),
+	(2, 2),
+	(2, 3);
+
+SELECT Product.name AS ProductName, Categories.name AS CategoriesName
+FROM Products P
+LEFT JOIN ProductCategories PC
+	ON P.id = PC.ProductId
+INNER JOIN Categories C
+	ON PC.CategoryId = C.Id
+	ORDER BY ProductName;
