@@ -1,9 +1,9 @@
 namespace CalculatingAreaLibrary.Tests
 {
-    public class UnitTest1
+    public class CalculateCircleAreaTests
     {
         [Fact]
-        public void Test1()
+        public void CalculateArea()
         {
 
         }
